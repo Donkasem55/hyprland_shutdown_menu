@@ -1,3 +1,5 @@
+#!/usr/bin/python
+import os, sys # don't mess with this line. this is used in the config.
 # these are the configs for you to change.
 
 waybar = (28, 0, 0, 0) # waybar size on top, left, right, bottom
@@ -35,19 +37,29 @@ btns = [
 		"text": "Shut down",
 		"width": 192, 
 		"height": 192, 
-		"x": lambda w: w//2-352, 
+		"x": lambda w: w//2-304, 
 		"y": lambda h: 0,
-		"command": lambda: None
+		"command": lambda: os.system("shutdown -h 0")
 	}, # first button. then follows, you get the point.
 	{
 		"font": font,
 		"text": "Restart",
 		"width": 192, 
-		"height": 192, 
+		"height": 192,
 		"x": lambda w: w//2-96, 
 		"y": lambda h: 0,
-		"command": lambda: None
+		"command": lambda: os.system("reboot")
+	},
+	{
+		"font": font,
+		"text": "Return to\nHyprland",
+		"width": 192, 
+		"height": 192,
+		"x": lambda w: w//2+112,
+		"y": lambda h: 0,
+		"command": lambda: sys.exit(0)
 	}
+
 ]
 
 # it kinda goes against my nature to write code with readable variable names, but there's a small chance someone will actually use this program and configure it themselves in the future.
