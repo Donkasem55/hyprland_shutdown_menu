@@ -90,6 +90,7 @@ window.overrideredirect(True)
 window.geometry(f"{w-waybar[1]-waybar[2]}x{h-waybar[0]-waybar[3]}+{x+waybar[1]}+{y+waybar[0]}")
 
 window.config(bg=bg)
+window.bind("<Escape>", lambda event: window.destroy())
 
 tfw = w-frame_margin_x_left(w)-frame_margin_x_right(w)
 tfh = h-frame_margin_y_top(h)-frame_margin_y_bottom(h)
@@ -104,6 +105,7 @@ h12 = time.strftime("%I")
 h24 = time.strftime("%H")
 ampm = time.strftime("%p")
 minute = time.strftime("%M")
+second = time.strftime("%S")
 year = time.strftime("%Y")
 day = time.strftime("%d")
 month = time.strftime("%B")
@@ -117,6 +119,7 @@ for text in text_config:
 	t = t.replace("{MINUTE}", minute)
 	t = t.replace("{HOUR12}", h12)
 	t = t.replace("{AMPM}", ampm)
+	t = t.replace("{SECOND}", second)
 
 	t1 = tk.Label(f2, text=t, bg=bg, fg=fg, font=text[0])
 	t1.pack()
@@ -139,5 +142,35 @@ for btn in btns:
 	b1.bind("<Enter>", lambda e, b=b1: b.config(fg=btn_fg_hover, bg=btn_bg_hover))
 	b1.bind("<Leave>", lambda e, b=b1: b.config(fg=btn_fg, bg=btn_bg))
 
-window.mainloop()
+def main():
+	time = datetime.datetime.now()
+	dow = time.strftime("%A")
+	h12 = time.strftime("%I")
+	h24 = time.strftime("%H")
+	ampm = time.strftime("%p")
+	minute = time.strftime("%M")
+	year = time.strftime("%Y")
+	day = time.strftime("%d")
+	month = time.strftime("%B")
+	second = time.strftime("%S")
 
+	i = 0
+	for text in text_config:
+		t = text[1].replace("{DAYOFWEEK}", dow)
+		t = t.replace("{DAY}", day)
+		t = t.replace("{MONTH}", month)
+		t = t.replace("{YEAR}", year)
+		t = t.replace("{HOUR24}", h24)
+		t = t.replace("{MINUTE}", minute)
+		t = t.replace("{HOUR12}", h12)
+		t = t.replace("{AMPM}", ampm)
+		t = t.replace("{SECOND}", second)
+
+		txts[i].configure(text=t)
+		i += 1
+
+	window.after(100, main)
+
+window.after(100, main)
+
+window.mainloop()
